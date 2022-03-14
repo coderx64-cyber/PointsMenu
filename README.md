@@ -1,4 +1,6 @@
 # PointsMenu
+![2022-03-14](https://user-images.githubusercontent.com/79764433/158244926-6c443e99-03c2-4676-a535-2c9ecf8ffa21.png)
+
 Details: This menu does have features like buying weapons/abilities/trolls/etc with the points system.
 
 How to get points: every kill gives you 1 point and with double points it gives 2 points and if the player is downed then he wont be able to get points.
