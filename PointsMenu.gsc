@@ -134,16 +134,6 @@ MenuStructure()
     PowerupOptionsPos++;
     self MenuOption("Powerup Menu", PowerupOptionsPos, "Buy Max Ammo", ::BuyPowerup, 5);
     PowerupOptionsPos++;
-    /*if (isDefined(level.zombie_include_powerups["fire_sale"]))
-    {
-        self MenuOption("Powerup Menu", PowerupOptionsPos++;, "Buy Fire Sale", ::BuyPowerup, 6);
-        PowerupOptionsPos++;
-    }
-    if (isDefined(level.zombie_include_powerups["minigun"]))
-    {
-        self MenuOption("Powerup Menu", PowerupOptionsPos++;, "Buy Minigun Powerup", ::BuyPowerup, 7);
-        PowerupOptionsPos++;
-    }*/
     self MainMenu("Weapons Menu", "Main Menu");
     self MenuOption("Weapons Menu", 0, "Buy Wonder Weapons", ::SubMenu, "Buy Wonder Weapons");
     self MenuOption("Weapons Menu", 1, "Buy Equipments", ::SubMenu, "Buy Equipments");
