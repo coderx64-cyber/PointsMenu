@@ -42,7 +42,13 @@ onplayerspawned()
         self waittill("spawned_player");
         self thread BuildMenu();
         self.bAbilityJump = false;
+        self ShowOpenHint();
     }
+}
+
+ShowOpenHint()
+{
+    self iprintln("^2To open the menu Press Aim Button + Melee Button");
 }
 
 BuildMenu()
@@ -134,6 +140,16 @@ MenuStructure()
     PowerupOptionsPos++;
     self MenuOption("Powerup Menu", PowerupOptionsPos, "Buy Max Ammo", ::BuyPowerup, 5);
     PowerupOptionsPos++;
+    /*if (isDefined(level.zombie_include_powerups["fire_sale"]))
+    {
+        self MenuOption("Powerup Menu", PowerupOptionsPos++;, "Buy Fire Sale", ::BuyPowerup, 6);
+        PowerupOptionsPos++;
+    }
+    if (isDefined(level.zombie_include_powerups["minigun"]))
+    {
+        self MenuOption("Powerup Menu", PowerupOptionsPos++;, "Buy Minigun Powerup", ::BuyPowerup, 7);
+        PowerupOptionsPos++;
+    }*/
     self MainMenu("Weapons Menu", "Main Menu");
     self MenuOption("Weapons Menu", 0, "Buy Wonder Weapons", ::SubMenu, "Buy Wonder Weapons");
     self MenuOption("Weapons Menu", 1, "Buy Equipments", ::SubMenu, "Buy Equipments");
@@ -477,8 +493,8 @@ BuyPowerup(powerupType)
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 50 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 50 points!");
         }
     }
 
@@ -491,8 +507,8 @@ BuyPowerup(powerupType)
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 50 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 50 points!");
         }
     }
 
@@ -505,8 +521,8 @@ BuyPowerup(powerupType)
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 50 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 50 points!");
         }
     }
 
@@ -519,8 +535,8 @@ BuyPowerup(powerupType)
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 50 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 50 points!");
         }
     }
 
@@ -533,8 +549,8 @@ BuyPowerup(powerupType)
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 100 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 100 points!");
         }
     }
 
@@ -547,8 +563,8 @@ BuyPowerup(powerupType)
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 100 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 100 points!");
         }
     }
 
@@ -561,8 +577,8 @@ BuyPowerup(powerupType)
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 100 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 100 points!");
         }
     }
 }
@@ -670,8 +686,8 @@ BuyWeapon(weaponType)
     }
     else
     {
-        iprintln("^1You dont have enough points!");
-        iprintln("^1Require " + weaponPrice + " points!");
+        self iprintln("^1You dont have enough points!");
+        self iprintln("^1Require " + weaponPrice + " points!");
     }
 }
 
@@ -739,8 +755,8 @@ BuyMelee(meleeType)
     }
     else
     {
-        iprintln("^1You dont have enough points!");
-        iprintln("^1Require " + meleePrice + " points!");
+        self iprintln("^1You dont have enough points!");
+        self iprintln("^1Require " + meleePrice + " points!");
     }
 }
 
@@ -865,11 +881,11 @@ SetDvarCustom(dvarType)
                 player iprintln("^4" + self.name + " ^3Have Toggled ^3Low Gravity ^7 For ^11 Minute");
         }
         else if (level.bLowGravity == true)
-            iprintln("^1Low Gravity Is Already Activiate Wait Until The Effect Finish!");
+            self iprintln("^1Low Gravity Is Already Activiate Wait Until The Effect Finish!");
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 100 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 100 points!");
         }
     }
     else if (dvarType == 2)
@@ -883,11 +899,11 @@ SetDvarCustom(dvarType)
                 player iprintln("^4" + self.name + " ^3Have Toggled ^3Double Speed ^7 For ^11 Minute");
         }
         else if (level.bDoubleSpeed == true)
-            iprintln("^1Double Speed Is Already Activiate Wait Until The Effect Finish!");
+            self iprintln("^1Double Speed Is Already Activiate Wait Until The Effect Finish!");
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 100 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 100 points!");
         }
     }
     else if (dvarType == 3)
@@ -901,11 +917,11 @@ SetDvarCustom(dvarType)
                 player iprintln("^4" + self.name + " ^3Have Toggled ^3Double Jump Height ^7 For ^11 Minute");
         }
         else if (level.bDoubleJumpHeight == true)
-            iprintln("^1Double Jump Height Is Already Activiate Wait Until The Effect Finish!");
+            self iprintln("^1Double Jump Height Is Already Activiate Wait Until The Effect Finish!");
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 100 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 100 points!");
         }
     } 
 }
@@ -923,13 +939,13 @@ FunFunc(funType)
             }
             else
             {
-                iprintln("^1Someone have already activated god mode wait until it finish!");
+                self iprintln("^1Someone have already activated god mode wait until it finish!");
             }
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 150 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 150 points!");
         }
     }
     if (funType == 1)
@@ -948,13 +964,13 @@ FunFunc(funType)
             }
             else
             {
-                iprintln("^1Someone have already removed the perks limit!");
+                self iprintln("^1Someone have already removed the perks limit!");
             }
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require " + Price + " points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require " + Price + " points!");
         }
     }
     if (funType == 2)
@@ -1022,13 +1038,13 @@ AbilitiesFunc(abilityType)
             }
             else
             {
-                iprintln("^1You already have perma double speed!");
+                self iprintln("^1You already have perma double speed!");
             }
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 100 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 100 points!");
         }
     }
     if (abilityType == 2)
@@ -1045,13 +1061,13 @@ AbilitiesFunc(abilityType)
             }
             else
             {
-                iprintln("^1You already have perma double jump!");
+                self iprintln("^1You already have perma double jump!");
             }
         }
         else
         {
-            iprintln("^1You dont have enough points!");
-            iprintln("^1Require 100 points!");
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 100 points!");
         }
     }
 }
@@ -1069,7 +1085,7 @@ TrollFunc(trollType)
             }
             else
             {
-                iprintln("^1Someone have already activated this troll!");
+                self iprintln("^1Someone have already activated this troll!");
             }
         }
     }
