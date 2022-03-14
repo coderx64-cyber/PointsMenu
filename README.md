@@ -11,3 +11,8 @@ Weapons: Wonder Weapons/Equipments/Melees
 Fun: Double Speed/Double Jump Height/God Mode (All of them are temporary)/Remove Perks Limit/Revive All Players (the price of those depend on the current players number)
 Abilities: Perma Double Speed/Perma Double Jump
 Troll: Decrease Players Speed/Low Gravity
+
+Credit:
+Menu Base By ZeiiKeN & Fanatik
+CabCon For Black Ops 2 GSC Managed Code List
+Cahz For The Counter System In ZOMBIES++
