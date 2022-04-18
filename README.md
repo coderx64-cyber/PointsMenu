@@ -10,7 +10,7 @@ Powerups: instakill/nuke/double points/carpenter/max ammo
 Weapons: Wonder Weapons/Equipments/Melees  
 Fun: Double Speed/Double Jump Height/God Mode (All of them are temporary)/Remove Perks Limit/Revive All Players (the price of those depend on the current players number)  
 Abilities: Perma Double Speed/Perma Double Jump/Upgrade Health  
-Troll: Decrease Players Speed/Low Gravity
+Troll: Decrease Players Speed/Low Gravity  
 Misc: Change Menu Color/End the game  
 
 How to open the menu: Press Aim button + melee  
