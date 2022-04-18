@@ -1093,7 +1093,7 @@ AbilitiesFunc(abilityType)
     }
     if (abilityType == 3)
     {
-        if (self.points >= 40)
+        if (self.points >= 40 * self.HealthUpgrade)
         {
             if (self hasperk("specialty_armorvest"))
             {
