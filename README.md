@@ -1,5 +1,5 @@
 # PointsMenu
-![PngPreview](https://user-images.githubusercontent.com/79764433/158244926-6c443e99-03c2-4676-a535-2c9ecf8ffa21.png)
+![PngPreview](https://user-images.githubusercontent.com/79764433/163756572-9de49b2c-4644-47e8-95bb-e73f946554c2.png)
 
 Details: This menu does have features like buying weapons/abilities/trolls/etc with the points system.
 
@@ -9,8 +9,9 @@ Features:
 Powerups: instakill/nuke/double points/carpenter/max ammo  
 Weapons: Wonder Weapons/Equipments/Melees  
 Fun: Double Speed/Double Jump Height/God Mode (All of them are temporary)/Remove Perks Limit/Revive All Players (the price of those depend on the current players number)  
-Abilities: Perma Double Speed/Perma Double Jump  
-Troll: Decrease Players Speed/Low Gravity  
+Abilities: Perma Double Speed/Perma Double Jump/Upgrade Health  
+Troll: Decrease Players Speed/Low Gravity
+Misc: Change Menu Color/End the game  
 
 How to open the menu: Press Aim button + melee  
 1 and 2 to move up and down  
@@ -23,8 +24,8 @@ Download Link: https://github.com/coderx64-cyber/PointsMenu/releases/tag/Release
 How to load a GSC into the game: Go to %localappdata%\Plutonium\storage\t6\scripts\zm and copy the compiled script inside of it.  
 NOTE: If you don't have the script folder then create it.  
 
-The Tutorial in GIF:
-![GifTut](https://user-images.githubusercontent.com/79764433/163733111-9a5ffa63-a15e-4b16-b030-c555316705fa.gif)
+The Tutorial in GIF:  
+![2022-04-18 08-15-14](https://user-images.githubusercontent.com/79764433/163763673-c33ca1de-bb21-4be8-9d46-7d56a0ea6aa3.gif)
 
 I have only tested this mod in solo so I don't know if there is any bug with multiple players.  
 
