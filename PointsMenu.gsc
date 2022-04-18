@@ -6,6 +6,7 @@
 #include maps/mp/zombies/_zm_laststand;
 #include maps/mp/zombies/_zm_weapons;
 #include maps/mp/zombies/_zm_laststand;
+#include maps/mp/zombies/_zm_perks;
 //Enable this only in zm_tomb
 //#include maps/mp/zombies/_zm_weap_one_inch_punch;
 
@@ -40,9 +41,14 @@ onplayerspawned()
     for(;;)
     {
         self waittill("spawned_player");
+        self.MenuTextColor = 6;
         self thread BuildMenu();
         self.bAbilityJump = false;
+        self.HealthUpgrade = 0;
+        self.score = 900000;
         self ShowOpenHint();
+        self thread HealthCheckThread();
+        level.custom_game_over_hud_elem = ::GameOverHud;
     }
 }
 
@@ -127,6 +133,7 @@ MenuStructure()
     self MenuOption("Main Menu", 2, "Fun Menu", ::SubMenu, "Fun Menu");
     self MenuOption("Main Menu", 3, "Abilities Menu", ::SubMenu, "Abilities Menu");
     self MenuOption("Main Menu", 4, "Troll Menu", ::SubMenu, "Troll Menu");
+    self MenuOption("Main Menu", 5, "Misc Menu", ::SubMenu, "Misc Menu");
 
     self MainMenu("Powerup Menu", "Main Menu");
     PowerupOptionsPos = 0;
@@ -166,10 +173,24 @@ MenuStructure()
     self MainMenu("Abilities Menu", "Main Menu");
     self MenuOption("Abilities Menu", 0, "Perma Double Speed", ::AbilitiesFunc, 1);
     self MenuOption("Abilities Menu", 1, "Perma Double Jump", ::AbilitiesFunc, 2);
+    self MenuOption("Abilities Menu", 2, "Upgrade Health", ::AbilitiesFunc, 3);
 
     self MainMenu("Troll Menu", "Main Menu");
     self MenuOption("Troll Menu", 0, "Decrease Players Speed", ::TrollFunc, 1);
     self MenuOption("Troll Menu", 1, "Low Gravity", ::SetDvarCustom, 1);
+
+    self MainMenu("Misc Menu", "Main Menu");
+    self MenuOption("Misc Menu", 0, "Change Menu Color", ::SubMenu, "Change Menu Color");
+    self MenuOption("Misc Menu", 1, "End the game", ::EndGameFunc);
+
+    self MainMenu("Change Menu Color", "Misc Menu");
+    self MenuOption("Change Menu Color", 0, "Red", ::MenuColorFunc, 1);
+    self MenuOption("Change Menu Color", 1, "Green", ::MenuColorFunc, 2);
+    self MenuOption("Change Menu Color", 2, "Yellow", ::MenuColorFunc, 3);
+    self MenuOption("Change Menu Color", 3, "Blue", ::MenuColorFunc, 4);
+    self MenuOption("Change Menu Color", 4, "Cyan", ::MenuColorFunc, 5);
+    self MenuOption("Change Menu Color", 5, "Pink", ::MenuColorFunc, 6);
+    self MenuOption("Change Menu Color", 6, "White", ::MenuColorFunc, 7);
 
     self MainMenu("Buy Wonder Weapons", "Weapons Menu");
     OptionPos = 0;
@@ -301,7 +322,7 @@ MainMenu(Menu, Return)
 }
 MenuOption(Menu, Index, Texte, Function, Input)
 {
-    self.Menu.System["MenuTexte"][Menu][Index] = "^6" + Texte;
+    self.Menu.System["MenuTexte"][Menu][Index] = "^" + self.MenuTextColor + Texte;
     self.Menu.System["MenuFunction"][Menu][Index] = Function;
     self.Menu.System["MenuInput"][Menu][Index] = Input;
 }
@@ -320,7 +341,7 @@ LoadMenu(menu)
     self.Menu.System["MenuRoot"] = menu;
     self.Menu.System["Title"] = self createFontString("default", 2.0);
     self.Menu.System["Title"] setPoint("CENTER", "TOP", 5, 30);
-    self.Menu.System["Title"] setText("^6" + menu);
+    self.Menu.System["Title"] setText("^" + self.MenuTextColor + menu);
     self.Menu.System["Title"].sort = 3;
     self.Menu.System["Title"].alpha = 1;
     string = "";
@@ -1070,6 +1091,35 @@ AbilitiesFunc(abilityType)
             self iprintln("^1Require 100 points!");
         }
     }
+    if (abilityType == 3)
+    {
+        if (self.points >= 40)
+        {
+            if (self hasperk("specialty_armorvest"))
+            {
+                if (self.HealthUpgrade == 5)
+                {
+                    self iprintln("^1You reached the maximum health upgrade!");
+                }
+                else
+                {
+                    self.HealthUpgrade += 1;
+                    self setmaxhealth(250 + (50 * self.HealthUpgrade));
+                    foreach (player in level.players)
+                        player iprintln("^4" + self.name + " have upgraded the health to: " + 250 + (50 * self.HealthUpgrade));
+                }
+            }
+            else
+            {
+                self iprintln("^1You should buy juggernog first before using this upgrade!");
+            }
+        }
+        else
+        {
+            self iprintln("^1You dont have enough points!");
+            self iprintln("^1Require 100 points!");
+        }
+    }
 }
 
 TrollFunc(trollType)
@@ -1146,4 +1196,111 @@ DoubleJumpFunc()
         }
         wait 0.001;
     }
+}
+
+HealthCheckThread()
+{
+    while (true)
+    {
+        self waittill("player_downed");
+        if (self.HealthUpgrade > 0)
+        {
+            self.HealthUpgrade = 0;
+            perk_set_max_health_if_jugg( "health_reboot", 1, 0 );
+            foreach (player in level.players)
+                    player iprintln("^4" + self.name + " have lost the health upgrade");
+        }
+    }
+}
+
+EndGameFunc()
+{
+    if (self.points >= 1200)
+    {
+        level notify("end_game");
+        self freezeControls(1);
+        self MenuClosing();
+    }
+    else
+    {
+        self iprintln("^1You dont have enough points!");
+        self iprintln("^1Require 1200 points!");
+    }
+}
+
+GameOverHud(player)
+{
+    game_over = newclienthudelem( player );
+	game_over.alignX = "center";
+	game_over.alignY = "middle";
+	game_over.horzAlign = "center";
+	game_over.vertAlign = "middle";
+	game_over.y -= 130;
+	game_over.foreground = true;
+	game_over.fontScale = 3;
+	game_over.alpha = 0;
+	game_over.color = ( 1.0, 1.0, 1.0 );
+	game_over.hidewheninmenu = true;
+	game_over SetText("You Won!");
+	game_over FadeOverTime( 1 );
+	game_over.alpha = 1;
+}
+
+MenuColorFunc(color)
+{
+    self MenuClosing();
+    self.MenuTextColor = color;
+
+    if (self.MenuTextColor == 1)
+    {
+        self.Menu.Material["Scrollbar"].color = (1, 0, 0);
+        self.Menu.Material["BorderMiddle"].color = (1, 0, 0);
+        self.Menu.Material["BorderLeft"].color = (1, 0, 0);
+        self.Menu.Material["BorderRight"].color = (1, 0, 0);
+    }
+    if (self.MenuTextColor == 2)
+    {
+        self.Menu.Material["Scrollbar"].color = (0, 1, 0);
+        self.Menu.Material["BorderMiddle"].color = (0, 1, 0);
+        self.Menu.Material["BorderLeft"].color = (0, 1, 0);
+        self.Menu.Material["BorderRight"].color = (0, 1, 0);
+    }
+    if (self.MenuTextColor == 3)
+    {
+        self.Menu.Material["Scrollbar"].color = (1, 1, 0);
+        self.Menu.Material["BorderMiddle"].color = (1, 1, 0);
+        self.Menu.Material["BorderLeft"].color = (1, 1, 0);
+        self.Menu.Material["BorderRight"].color = (1, 1, 0);
+    }
+    if (self.MenuTextColor == 4)
+    {
+        self.Menu.Material["Scrollbar"].color = (0, 0, 1);
+        self.Menu.Material["BorderMiddle"].color = (0, 0, 1);
+        self.Menu.Material["BorderLeft"].color = (0, 0, 1);
+        self.Menu.Material["BorderRight"].color = (0, 0, 1);
+    }
+    if (self.MenuTextColor == 5)
+    {
+        self.Menu.Material["Scrollbar"].color = (0, 1, 1);
+        self.Menu.Material["BorderMiddle"].color = (0, 1, 1);
+        self.Menu.Material["BorderLeft"].color = (0, 1, 1);
+        self.Menu.Material["BorderRight"].color = (0, 1, 1);
+    }
+    if (self.MenuTextColor == 6)
+    {
+        self.Menu.Material["Scrollbar"].color = (1, 0, 1);
+        self.Menu.Material["BorderMiddle"].color = (1, 0, 1);
+        self.Menu.Material["BorderLeft"].color = (1, 0, 1);
+        self.Menu.Material["BorderRight"].color = (1, 0, 1);
+    }
+    if (self.MenuTextColor == 7)
+    {
+        self.Menu.Material["Scrollbar"].color = (1, 1, 1);
+        self.Menu.Material["BorderMiddle"].color = (1, 1, 1);
+        self.Menu.Material["BorderLeft"].color = (1, 1, 1);
+        self.Menu.Material["BorderRight"].color = (1, 1, 1);
+    }
+
+    self MenuStructure();
+    self iprintln("^" + self.MenuTextColor + "Menu color changed!");
 }
