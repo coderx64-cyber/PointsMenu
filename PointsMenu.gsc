@@ -1115,7 +1115,7 @@ AbilitiesFunc(abilityType)
         else
         {
             self iprintln("^1You dont have enough points!");
-            self iprintln("^1Require " + 40 * self.HealthUpgrade + " points!");
+            self iprintln("^1Require " + (40 * self.HealthUpgrade) + " points!");
         }
     }
 }
