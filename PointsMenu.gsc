@@ -45,7 +45,6 @@ onplayerspawned()
         self thread BuildMenu();
         self.bAbilityJump = false;
         self.HealthUpgrade = 0;
-        self.score = 900000;
         self ShowOpenHint();
         self thread HealthCheckThread();
         level.custom_game_over_hud_elem = ::GameOverHud;
