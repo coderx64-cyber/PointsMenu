@@ -47,7 +47,6 @@ onplayerspawned()
         self.HealthUpgrade = 0;
         self ShowOpenHint();
         self thread HealthCheckThread();
-        level.custom_game_over_hud_elem = ::GameOverHud;
     }
 }
 
@@ -1216,6 +1215,7 @@ EndGameFunc()
 {
     if (self.points >= 1200)
     {
+	level.custom_game_over_hud_elem = ::GameOverHud;
         level notify("end_game");
         self freezeControls(1);
         self MenuClosing();
