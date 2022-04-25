@@ -44,9 +44,11 @@ onplayerspawned()
         self.MenuTextColor = 6;
         self thread BuildMenu();
         self.bAbilityJump = false;
-        self.HealthUpgrade = 0;
+        self.HealthUpgrade = 1;
         self ShowOpenHint();
-        self thread HealthCheckThread();
+        self thread TakeAbilitiesThread();
+		self.oldMaxHealth = self.maxhealth + 150;
+		self.bAbilitySpeed = false;
     }
 }
 
@@ -785,10 +787,8 @@ BuyMelee(meleeType)
     FistSZ = "";
     FistPrice = 0;
     FistColor = 0;
-
     self ent_flag_init( "melee_punch_cooldown" );
     self.one_inch_punch_flag_has_been_init = 1;
-
     if (fistType == 1)
     {
         self.str_punch_element = "upgraded";
@@ -836,7 +836,6 @@ BuyMelee(meleeType)
         FistPrice = 60;
         FistColor = 0;
     }
-
     if (self.points >= FistPrice)
     {
         self.points -= FistPrice; 
@@ -869,7 +868,6 @@ BuyMelee(meleeType)
             self set_player_melee_weapon("one_inch_punch_zm");
             self thread maps/mp/zombies/_zm_audio::create_and_play_dialog("perk", "one_inch");  
         }
-
         foreach (player in level.players)
         {
             if (FistColor == 0)
@@ -1095,16 +1093,18 @@ AbilitiesFunc(abilityType)
         {
             if (self hasperk("specialty_armorvest"))
             {
-                if (self.HealthUpgrade == 5)
+                if (self.HealthUpgrade == 6)
                 {
                     self iprintln("^1You reached the maximum health upgrade!");
                 }
                 else
                 {
-                    self.HealthUpgrade += 1;
-                    self setmaxhealth(250 + (50 * self.HealthUpgrade));
+				    self.points -= 40 * self.HealthUpgrade;
+                    self setmaxhealth(self.oldMaxHealth + (50 * self.HealthUpgrade));
+					self.health = self.oldMaxHealth + (50 * self.HealthUpgrade);
                     foreach (player in level.players)
-                        player iprintln("^4" + self.name + " have upgraded the health to: " + 250 + (50 * self.HealthUpgrade));
+                        player iprintln("^4" + self.name + " have upgraded the health to: " + self.oldMaxHealth + (50 * self.HealthUpgrade));
+					self.HealthUpgrade += 1;
                 }
             }
             else
@@ -1186,28 +1186,44 @@ DoubleJumpFunc()
     self endon("disconnect");
     for(;;)
     {
-        if(self GetVelocity()[2]>150 && !self isOnGround())
-        {
-            wait 0.2;
-            self setvelocity((self getVelocity()[0],self getVelocity()[1],self getVelocity()[2])+(0,0,250));
-            wait 0.8;
-        }
-        wait 0.001;
+	    if (self.bAbilityJump == true)
+		{
+		    if(self GetVelocity()[2]>150 && !self isOnGround())
+            {
+                wait 0.2;
+                self setvelocity((self getVelocity()[0],self getVelocity()[1],self getVelocity()[2])+(0,0,250));
+                wait 0.8;
+            }
+		}
+		wait 0.01;
     }
 }
 
-HealthCheckThread()
+TakeAbilitiesThread()
 {
     while (true)
     {
         self waittill("player_downed");
-        if (self.HealthUpgrade > 0)
+        if (self.HealthUpgrade > 1)
         {
-            self.HealthUpgrade = 0;
+            self.HealthUpgrade = 1;
             perk_set_max_health_if_jugg( "health_reboot", 1, 0 );
             foreach (player in level.players)
-                    player iprintln("^4" + self.name + " have lost the health upgrade");
+                player iprintln("^4" + self.name + " have lost the health upgrade");
         }
+		if (self.bAbilitySpeed == true)
+		{
+		    self setmovespeedscale(1);
+			foreach (player in level.players)
+                player iprintln("^4" + self.name + " have lost the speed upgrade");
+			self.bAbilitySpeed = false;
+		}
+		if (self.bAbilityJump == true)
+		{
+			foreach (player in level.players)
+                player iprintln("^4" + self.name + " have lost the jump upgrade");
+			self.bAbilityJump = false;
+		}
     }
 }
 
