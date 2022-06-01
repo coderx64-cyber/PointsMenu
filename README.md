@@ -19,10 +19,9 @@ F to select
 V to exit the submenu or the menu 
 
 Source Code: https://github.com/coderx64-cyber/PointsMenu  
-Download Link: https://github.com/coderx64-cyber/PointsMenu/releases/tag/Release_V1.1
+Download Link: https://github.com/coderx64-cyber/PointsMenu/releases/tag/Release_V1.3
   
-How to load a GSC into the game: Go to %localappdata%\Plutonium\storage\t6\scripts\zm and copy the compiled script inside of it.  
-NOTE: If you don't have the script folder then create it.  
+How to load the mod into the game: move scripts folder inside RAR file to %localappdata%\Plutonium\storage\t6 
 
 The Tutorial in GIF:  
 ![2022-04-18 08-15-14](https://user-images.githubusercontent.com/79764433/163763673-c33ca1de-bb21-4be8-9d46-7d56a0ea6aa3.gif)
