@@ -151,8 +151,7 @@ MenuStructure()
     self MainMenu("Weapons Menu", "Main Menu");
     self MenuOption("Weapons Menu", 0, "Buy Wonder Weapons", ::SubMenu, "Buy Wonder Weapons");
     self MenuOption("Weapons Menu", 1, "Buy Equipments", ::SubMenu, "Buy Equipments");
-    if (level.script != "zm_tomb")
-        self MenuOption("Weapons Menu", 2, "Buy Melee", ::SubMenu, "Buy Melee");
+    self MenuOption("Weapons Menu", 2, "Buy Melee", ::SubMenu, "Buy Melee");
 
     self MainMenu("Fun Menu", "Main Menu");
     self MenuOption("Fun Menu", 0, "Double Speed", ::SetDvarCustom, 2);
